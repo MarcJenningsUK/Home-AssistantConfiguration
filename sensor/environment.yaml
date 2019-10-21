@@ -1,0 +1,57 @@
+- platform: uptime
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'time_date'
+
+#- platform: template
+#  sensors:
+#    batteries:
+#      friendly_name: Low Batteries
+#      valueTemplate: >-
+#        {% for state in states.sensor -%}
+#          {%- if "battery" in state.entity_id and (state.state != "ok") and (state.state | float < 75) %}
+#          {{ state.name }} is {{state.state_with_unit}} {% endif -%}
+#        {%- endfor %}
+
+#- platform: mqtt
+#  name: "PiLightLevel"
+#  state_topic: "ESP8266/pi/lightlevel"
+#  icon: mdi:lighbulb-on-outline
+#  unit_of_measurement: "lx"
+
+#- platform: mqtt
+#  name: "PiTemperature"
+#  state_topic: "ESP8266/pi/temperature"
+#  unit_of_measurement: '°C'
+#  icon: mdi:thermometer
+
+#- platform: mqtt
+#  name: "PiPressure"
+#  state_topic: "ESP8266/pi/pressure"
+#  unit_of_measurement: "mPa"
+#  icon: mdi:gauge
+
+#- platform: mqtt
+#  name: "PiRed"
+#  state_topic: "ESP8266/pi/red"
+#  unit_of_measurement: "lx"
+#  icon: mdi:lighbulb-on-outline
+
+#- platform: mqtt
+#  name: "PiGreen"
+#  state_topic: "ESP8266/pi/green"
+#  unit_of_measurement: "lx"
+#  icon: mdi:lighbulb-on-outline
+
+#- platform: mqtt
+#  name: "PiBlue"
+#  state_topic: "ESP8266/pi/blue"
+#  unit_of_measurement: "lx"
+#  icon: mdi:lighbulb-on-outline
+
+- platform: season
+#  name: Season

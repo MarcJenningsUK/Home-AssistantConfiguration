@@ -1,0 +1,68 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /tmp/tts
+recorder: !include recorder.yaml
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+sensor: !include_dir_merge_list sensor
+
+remote:
+  - platform: harmony
+    name: "Lounge Hub"
+    host: 192.168.1.187
+
+http:
+  api_password: homepanel
+
+
+media_player:
+  - platform: samsungtv
+    host: 192.168.1.17
+    mac: 5C:49:7D:56:3D:F6
+    port: 8001
+#    friendly_name: TV
+  - platform: squeezebox
+    host: 192.168.1.21
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_key
+    name: Home Weather
+
+sun:
+
+blink:
+  username: !secret blink_username
+  password: !secret blink_password
+
+rest_command:
+  turn_on_soundbar:
+    url: 'http://192.168.1.26:55001/UIC?cmd=%3Cname%3ESetPlaybackControl%3C/name%3E%3Cp%20type=%22str%22%20name=%22playbackcontrol%22%20val=%22play%22/%3E'
+  select_aux:
+    url: 'http://192.168.1.26:55001/UIC?cmd=%3Cname%3ESetFunc%3C/name%3E%3Cp%20type=%22str%22%20name=%22function%22%20val=%22aux%22/%3E'
+
+device_tracker:
+  - platform: netgear
+    password: !secret routerpassword
+    consider_home: "0:30:00"
+    new_device_defaults:
+      track_new_devices: false
+      hide_if_away: false
+
+hive:
+  username: !secret hive_username
+  password: !secret hive_password
+
+

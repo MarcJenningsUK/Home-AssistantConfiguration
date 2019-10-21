@@ -1,0 +1,48 @@
+- platform: mqtt
+  name: "Motion Sensor"
+  state_topic: "smartthings/Motion Sensor/motion"
+  icon: mdi:run
+
+- platform: mqtt
+  name: "Motion Sensor Battery"
+  state_topic: "smartthings/Motion Sensor/battery"
+  #icon-template: '{{ getbatteryicon(states("sensor.motion_sensor_battery") | float) }}'
+
+- platform: mqtt
+  name: "Front door"
+  state_topic: "smartthings/Multipurpose Sensor/contact"
+
+- platform: mqtt
+  name: Front Door Battery
+  state_topic: "smartthings/Multipurpose Sensor/battery"
+  #icon-template: '{{ getbatteryicon(states("sensor.front_door_battery") | float) }}'
+
+- platform: mqtt
+  name: Front Door Sensor Battery
+  state_topic: "smartthings/Multipurpose Sensor/battery"
+
+- platform: mqtt
+  name: 'Lounge Socket Power'
+  state_topic: "smartthings/Lounge Socket/power"
+
+- platform: mqtt
+  name: "Water Leak Sensor"
+  state_topic: "smartthings/Water Leak Sensor/water"
+  icon: mdi:water
+
+- platform: mqtt
+  name: "Water Leak Sensor Battery"
+  state_topic: "smartthings/Water Leak Sensor/battery"
+  #icon-template: '{{ getbatteryicon(states("sensor.water_leak_sensor_battery") | float) }}'
+
+- platform: mqtt
+  name: "Media Play/Pause"
+  state_topic: ESP32/MediaPlayPause
+
+- platform: mqtt
+  name: "Media Next"
+  state_topic: ESP32/MediaNext
+
+- platform: mqtt
+  name: "Media Previous"
+  state_topic: ESP32/MediaPrevious

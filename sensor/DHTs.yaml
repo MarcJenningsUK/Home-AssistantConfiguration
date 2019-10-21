@@ -1,0 +1,48 @@
+- platform: mqtt
+  name: 'Lounge Temperature'
+  state_topic: "ESP8266/Temperature"
+  unit_of_measurement: '°C' 
+  icon: mdi:thermometer
+
+- platform: mqtt
+  name: 'Lounge Humidity'
+  state_topic: "ESP8266/Humidity"
+  unit_of_measurement: '%'
+  icon: mdi:water-percent
+
+- platform: mqtt
+  name: 'Garage Temperature'
+  state_topic: "ESP8266/D1002/temperature"
+  unit_of_measurement: '°C' 
+  icon: mdi:thermometer
+
+- platform: mqtt
+  name: 'Garage Humidity'
+  state_topic: "ESP8266/D1002/humidity"
+  unit_of_measurement: '%'
+  icon: mdi:water-percent
+
+- platform: mqtt
+  name: Roaming Temperature
+  state_topic: ESP8266/a020a616f5e4/Temperature
+  unit_of_measurement: '°C'
+  icon: mdi:thermometer
+
+- platform: mqtt
+  name: Roaming Humidity
+  state_topic: ESP8266/a020a616f5e4/Humidity
+  unit_of_measurement: '%'
+  icon: mdi:water-percent
+
+- platform: mqtt
+  name: Drybox Temperature
+  state_topic: ESP8266/60194827743/Temperature
+  unit_of_measurement: '°C'
+  icon: mdi:thermometer
+
+- platform: mqtt
+  name: Drybox Humidity
+  state_topic: ESP8266/60194827743/Humidity
+  unit_of_measurement: '%'
+  icon: mdi:water-percent
+

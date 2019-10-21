@@ -1,0 +1,181 @@
+- id: '1570872880962'
+  alias: Soundbar Control
+  description: ''
+  trigger:
+  - entity_id: media_player.living_room
+    platform: state
+    to: playing
+  condition: []
+  action:
+  - service: rest_command.turn_on_soundbar
+  - delay: 00:00:01
+  - service: rest_command.select_aux
+- id: '1570873396945'
+  alias: Front Door Notification
+  description: ''
+  trigger:
+  - entity_id: sensor.front_door
+    platform: state
+    to: open
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: The front door just opened
+    service: tts.google_translate_say
+  - data:
+      payload: opened
+      topic: ESP32/FrontDoor
+    service: mqtt.publish
+  - delay: 00:00:30
+  - data:
+      payload: closed
+      topic: ESP32/FrontDoor
+    service: mqtt.publish
+- id: '1570876349299'
+  alias: Welcome_home
+  description: ''
+  trigger:
+  - entity_id: device_tracker.3c_28_6d_05_8d_a1
+    platform: state
+    to: home
+  condition:
+  - after: 07:00:00
+    before: '23:59:59'
+    condition: time
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: Welcome home Marc
+    service: tts.google_translate_say
+  - data:
+      entity_id: media_player.kitchen_speaker
+      language: en
+      message: Welcome home Marc
+    service: tts.google_translate_say
+- id: '1570876640812'
+  alias: LogPhoneAway
+  description: ''
+  trigger:
+  - entity_id: device_tracker.3c_28_6d_05_8d_a1
+    platform: state
+    to: away
+  condition: []
+  action:
+  - data:
+      message: Logged phone disappearing.
+    service: persistent_notification.create
+- id: '1570876640814'
+  alias: Update Available Notification
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.updater
+    from: 'off'
+    to: 'on'
+  action:
+  - service: notify.notify
+    data_template:
+      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
+        }} is available.
+- id: '1570972117222'
+  alias: LoungePlay
+  description: ''
+  trigger:
+  - payload: play
+    platform: mqtt
+    topic: ESP32/MediaPlayPause
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play
+- id: '1570972117223'
+  alias: LoungePause
+  description: ''
+  trigger:
+  - payload: pause
+    platform: mqtt
+    topic: ESP32/MediaPlayPause
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play_pause
+- id: '1570972117224'
+  alias: LoungeStop
+  description: ''
+  trigger:
+  - payload: stop
+    platform: mqtt
+    topic: ESP32/MediaPlayPause
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_pause
+- id: '1570972883585'
+  alias: Update Media Detail
+  description: ''
+  trigger:
+  - entity_id: media_player.living_room
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{{ states.media_player.living_room.attributes.media_title
+        }}'
+      topic: ESP32/MediaTitle
+    service: mqtt.publish
+  - data:
+      payload_template: '{{ states.media_player.living_room.attributes.media_artist
+        }}'
+      topic: ESP32/MediaArtist
+    service: mqtt.publish
+  - data:
+      payload_template: '{{ states.media_player.living_room.state }}'
+      topic: ESP32/MediaState
+    service: mqtt.publish
+- id: '1571043340500'
+  alias: Morning Light On
+  description: ''
+  trigger:
+  - at: 07:00:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: light.bedroom
+    service: light.turn_on
+  - delay: 01:15:00
+  - data:
+      entity_id: light.bedroom
+    service: light.turn_off
+- alias: Sunset light on
+  id: '1499179881620'
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:00:00
+  action:
+  - delay: 00:{{ (range(1, 48)|random|int) }}:00
+  - service: light.turn_on
+    entity_id:
+    - light.living_room_main
+  - service: notify.locallog
+    data:
+      message: light on at {{now().strftime("%Y%m%d-%H%M%S")}}
+- alias: sensible lights off
+  id: '1499179881621'
+  trigger:
+  - platform: time
+    at: '22:45:00'
+  action:
+  - delay: 00:{{ (range(1, 58)|random|int) }}:00
+  - service: light.turn_off
+    entity_id:
+    - light.living_room_main
+  - service: notify.locallog
+    data:
+      message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
