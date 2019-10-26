@@ -30,9 +30,9 @@
   state_topic: "smartthings/Water Leak Sensor/water"
   icon: mdi:water
 
-- platform: mqtt
-  name: "Water Leak Sensor Battery"
-  state_topic: "smartthings/Water Leak Sensor/battery"
+#- platform: mqtt
+#  name: "Water Leak Sensor Battery"
+#  state_topic: "smartthings/Water Leak Sensor/battery"
   #icon-template: '{{ getbatteryicon(states("sensor.water_leak_sensor_battery") | float) }}'
 
 - platform: mqtt

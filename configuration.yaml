@@ -31,7 +31,6 @@ media_player:
     host: 192.168.1.17
     mac: 5C:49:7D:56:3D:F6
     port: 8001
-#    friendly_name: TV
   - platform: squeezebox
     host: 192.168.1.21
 

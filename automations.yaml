@@ -70,15 +70,20 @@
 - id: '1570876640814'
   alias: Update Available Notification
   trigger:
-  - platform: state
-    entity_id: binary_sensor.updater
+  - entity_id: binary_sensor.updater
     from: 'off'
+    platform: state
     to: 'on'
   action:
-  - service: notify.notify
-    data_template:
-      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
+  - data_template:
+      message: Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")}}
+        is available.
+    service: notify.notify
+  - data:
+      title: Update available
+      message: Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")
         }} is available.
+    service: persistent_notification.create
 - id: '1570972117222'
   alias: LoungePlay
   description: ''
@@ -124,18 +129,8 @@
   condition: []
   action:
   - data:
-      payload_template: '{{ states.media_player.living_room.attributes.media_title
-        }}'
-      topic: ESP32/MediaTitle
-    service: mqtt.publish
-  - data:
-      payload_template: '{{ states.media_player.living_room.attributes.media_artist
-        }}'
-      topic: ESP32/MediaArtist
-    service: mqtt.publish
-  - data:
-      payload_template: '{{ states.media_player.living_room.state }}'
-      topic: ESP32/MediaState
+      payload_template: '{"title":"{{ state_attr("media_player.living_room","media_title") }}","artist":"{{ state_attr("media_player.living_room","media_artist") }}","album":"{{ state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
+      topic: ESP32/Media
     service: mqtt.publish
 - id: '1571043340500'
   alias: Morning Light On
@@ -179,3 +174,37 @@
   - service: notify.locallog
     data:
       message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
+- id: '1571768139386'
+  alias: PublishTime
+  description: ''
+  trigger:
+  - entity_id: sensor.date_time
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%a, %d %B %Y -
+        %H:%M", false) }}'
+      topic: ESP32/datetime
+    service: mqtt.publish
+  - data:
+      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%d %b %Y - %H:%M",
+        false) }}'
+      topic: ESP32/datetimeshorter
+    service: mqtt.publish
+- id: '1571917792040'
+  alias: Publish Weather
+  description: ''
+  trigger:
+  - entity_id: weather.home_weather
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{ "icon": "{{ states.weather.home_weather.state }}", "humidity":
+        "{{ state_attr("weather.home_weather","humidity") }}", "temp": "{{ state_attr("weather.home_weather","temperature")
+        }}", "precip": "{{ state_attr("weather.home_weather", "precipitation") }}"
+        }'
+      retain: true
+      topic: ESP32/forecast
+    service: mqtt.publish
