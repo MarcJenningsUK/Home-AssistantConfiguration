@@ -1,6 +1,20 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+homeassistant:
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      allow_bypass_login: true
+      trusted_networks:
+        - 192.168.1.0/24
+        - fd00::/8
+
+# mqtt:
+#   broker: 192.168.1.21
+#   discovery: true
+#   discovery_prefix: homeassistant
+
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 # http:
 #   base_url: example.duckdns.org:8123
@@ -22,22 +36,27 @@ remote:
     name: "Lounge Hub"
     host: 192.168.1.187
 
-http:
-  api_password: homepanel
-
-
 media_player:
   - platform: samsungtv
     host: 192.168.1.17
     mac: 5C:49:7D:56:3D:F6
     port: 8001
+  - platform: samsungtv
+    host: 192.168.1.26
+    name: Soundbar    
   - platform: squeezebox
     host: 192.168.1.21
+
+notify:
+  - name: pushbullet
+    platform: pushbullet
+    api_key: !secret pushbullet_password
 
 weather:
   - platform: darksky
     api_key: !secret darksky_key
     name: Home Weather
+    units: uk2
 
 sun:
 
@@ -53,6 +72,7 @@ rest_command:
 
 device_tracker:
   - platform: netgear
+    host: 192.168.1.1
     password: !secret routerpassword
     consider_home: "0:30:00"
     new_device_defaults:
@@ -62,5 +82,10 @@ device_tracker:
 hive:
   username: !secret hive_username
   password: !secret hive_password
+
+panel_iframe:
+  esphome:
+    title: "ESP Home"
+    url: http://192.168.1.21:6052/
 
 

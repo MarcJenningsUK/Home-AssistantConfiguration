@@ -14,9 +14,9 @@
   alias: Front Door Notification
   description: ''
   trigger:
-  - entity_id: sensor.front_door
+  - entity_id: binary_sensor.multipurpose_sensor_contact
     platform: state
-    to: open
+    to: 'on'
   condition: []
   action:
   - data:
@@ -33,6 +33,9 @@
       payload: closed
       topic: ESP32/FrontDoor
     service: mqtt.publish
+  - data:
+      entity_id: switch.living_room_tinyled
+    service: switch.toggle
 - id: '1570876349299'
   alias: Welcome_home
   description: ''
@@ -129,7 +132,9 @@
   condition: []
   action:
   - data:
-      payload_template: '{"title":"{{ state_attr("media_player.living_room","media_title") }}","artist":"{{ state_attr("media_player.living_room","media_artist") }}","album":"{{ state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
+      payload_template: '{"title":"{{ state_attr("media_player.living_room","media_title")
+        }}","artist":"{{ state_attr("media_player.living_room","media_artist") }}","album":"{{
+        state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
       topic: ESP32/Media
     service: mqtt.publish
 - id: '1571043340500'
@@ -208,3 +213,17 @@
       retain: true
       topic: ESP32/forecast
     service: mqtt.publish
+- id: '1572787059911'
+  alias: New Automation
+  description: ''
+  trigger:
+  - device_id: 13614b85e7b5447087b93456902c5bc5
+    domain: binary_sensor
+    entity_id: binary_sensor.multipurpose_sensor_contact
+    platform: device
+    type: opened
+  condition: []
+  action:
+  - condition: state
+    entity_id: switch.living_room_tinyled
+    state: 'on'
