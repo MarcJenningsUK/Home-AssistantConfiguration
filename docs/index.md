@@ -21,10 +21,10 @@ The reason this came up for me was that I added a [WLED](https://github.com/Airc
 
 I updated the device from 0.8.5 to 0.8.6 and instead of updating the existing component, it added a second one.  I dug into the reason and it looks like the discovery topic has changed from 
 
-> "homeassistant/wled_<mac address>/light/config" 
+> "homeassistant/wled_**mac address**>/light/config" 
   
 to  
   
-> "homeassistant/<configured servername>/light/config"
+> "homeassistant/**configured servername**/light/config"
 
 Hopefully that nugget will help someone
