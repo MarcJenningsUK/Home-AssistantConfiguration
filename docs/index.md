@@ -1,4 +1,4 @@
-# Home Assistant - MQTT Disocvery
+# Home Assistant - MQTT Discovery
 
 So I've been digging and it very much looks like there's something fishy going on, but  (at least for me) all isn't quite lost.
 I set up a new WLED device, and set up MQTT.  I subscribed to the homeassistant/# topics on my MQTT broker and waited for messages to come through.  They did.
