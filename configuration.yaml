@@ -9,14 +9,12 @@ homeassistant:
         - 192.168.1.0/24
         - fd00::/8
 
-# mqtt:
-#   broker: 192.168.1.21
-#   discovery: true
-#   discovery_prefix: homeassistant
-
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# http:
-#   base_url: example.duckdns.org:8123
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+sensor: !include_dir_merge_list sensor
+scene: !include_dir_merge_list scenes
+python_script: 
 
 # Text to speech
 tts:
@@ -24,13 +22,6 @@ tts:
     cache: true
     cache_dir: /tmp/tts
 recorder: !include recorder.yaml
-
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-sensor: !include_dir_merge_list sensor
-scene: !include_dir_merge_list scenes
-python_script: 
 
 remote:
   - platform: harmony
@@ -72,13 +63,9 @@ rest_command:
     url: 'http://192.168.1.26:55001/UIC?cmd=%3Cname%3ESetFunc%3C/name%3E%3Cp%20type=%22str%22%20name=%22function%22%20val=%22aux%22/%3E'
 
 device_tracker:
-  - platform: netgear
-    host: 192.168.1.1
-    password: !secret routerpassword
-    consider_home: "0:30:00"
-    new_device_defaults:
-      track_new_devices: false
-      hide_if_away: false
+  - platform: nmap_tracker
+    hosts: 
+    - 192.168.1.0/24
 
 hive:
   username: !secret hive_username
@@ -92,3 +79,8 @@ panel_iframe:
     title: deConz
     url: http://192.168.1.21:8181
 
+switch:
+  - platform: flux
+    lights:
+      - light.living_room_main
+      - light.work_light
