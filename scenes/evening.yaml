@@ -1,0 +1,17 @@
+- name: Evening
+  entities:
+    light.work_light: 
+      state: on
+      brightness: 128
+    light.living_room_main: 
+      state: on
+      brightness: 128
+- name: Working
+  entities:
+    light.work_light: 
+      state: on
+      brightness: 255
+    light.living_room_main: 
+      state: on
+      brightness: 255
+

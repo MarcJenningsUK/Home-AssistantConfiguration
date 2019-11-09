@@ -1,6 +1,5 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
 homeassistant:
   auth_providers:
     - type: homeassistant
@@ -30,6 +29,8 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 sensor: !include_dir_merge_list sensor
+scene: !include_dir_merge_list scenes
+python_script: 
 
 remote:
   - platform: harmony
@@ -87,5 +88,7 @@ panel_iframe:
   esphome:
     title: "ESP Home"
     url: http://192.168.1.21:6052/
-
+  deconz:
+    title: deConz
+    url: http://192.168.1.21:8181
 

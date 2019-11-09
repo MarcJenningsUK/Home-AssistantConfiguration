@@ -227,3 +227,60 @@
   - condition: state
     entity_id: switch.living_room_tinyled
     state: 'on'
+- id: '1573306764530'
+  alias: WLED Alerter
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.multipurpose_sensor_contact
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: light.wled2_2
+      store_name: flash_store_wled2
+    service: python_script.light_store
+  - alias: ''
+    data:
+      color_name: red
+      effect: 11
+      entity_id: light.wled2_2
+    service: light.turn_on
+  - delay: '"00:00:20"'
+  - data:
+      operation: restore
+      store_name: flash_store_wled2
+    service: python_script.light_store
+- id: '1573309148855'
+  alias: Media Player Button
+  description: ''
+  trigger:
+  - event_data:
+      name: Button
+      value: pushed
+    event_type: smartthings.button
+    platform: event
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play_pause
+- id: '1573310000714'
+  alias: Back Door Open
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.back_door_openclose
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: The back door just opened!
+    service: tts.google_translate_say
+  - data:
+      entity_id: media_player.kitchen_speaker
+      language: en
+      message: The back door just opened!
+    service: tts.google_translate_say
