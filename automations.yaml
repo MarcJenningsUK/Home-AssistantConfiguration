@@ -1,326 +1,386 @@
 - alias: Soundbar Control
-  id: "1570872880962"
-  description: ""
+  id: '1570872880962'
+  description: ''
   trigger:
-    - entity_id: media_player.living_room
-      platform: state
-      to: playing
+  - entity_id: media_player.living_room
+    platform: state
+    to: playing
   condition: []
   action:
-    - service: rest_command.turn_on_soundbar
-    - delay: 00:00:01
-    - service: rest_command.select_aux
+  - service: rest_command.turn_on_soundbar
+  - delay: 00:00:01
+  - service: rest_command.select_aux
 - alias: Front Door Notification
-  id: "1570873396945"
-  description: ""
+  id: '1570873396945'
+  description: ''
   trigger:
-    - entity_id: binary_sensor.multipurpose_sensor_contact
-      platform: state
-      to: "on"
+  - entity_id: binary_sensor.multipurpose_sensor_contact
+    platform: state
+    to: 'on'
   condition: []
   action:
-    - data:
-        entity_id: media_player.living_room_display
-        language: en
-        message: The front door just opened
-      service: tts.google_translate_say
-    - data:
-        payload: opened
-        topic: ESP32/FrontDoor
-      service: mqtt.publish
-    - delay: 00:00:30
-    - data:
-        payload: closed
-        topic: ESP32/FrontDoor
-      service: mqtt.publish
-    - data:
-        entity_id: switch.living_room_tinyled
-      service: switch.toggle
-- alias: Welcome_home
-  id: "1570876349299"
-  description: ""
-  trigger:
-    - entity_id: device_tracker.marcpixel3xl
-      platform: state
-      to: home
-  condition:
-    - after: 07:00:00
-      before: "23:59:59"
-      condition: time
-  action:
-    - data:
-        entity_id: media_player.living_room_display
-        language: en
-        message: Welcome home Marc
-      service: tts.google_translate_say
-    - data:
-        entity_id: media_player.kitchen_speaker
-        language: en
-        message: Welcome home Marc
-      service: tts.google_translate_say
-- alias: LogPhoneAway
-  id: "1570876640812"
-  description: ""
-  trigger:
-    - entity_id: device_tracker.3c_28_6d_05_8d_a1
-      platform: state
-      to: away
-  condition: []
-  action:
-    - data:
-        message: Logged phone disappearing.
-      service: persistent_notification.create
-- alias: Update Available Notification
-  id: "1570876640814"
-  trigger:
-    - entity_id: binary_sensor.updater
-      from: "off"
-      platform: state
-      to: "on"
-  action:
-    - data_template:
-        message:
-          Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")}}
-          is available.
-      service: notify.notify
-    - data:
-        title: Update available
-        message:
-          Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")
-          }} is available.
-      service: persistent_notification.create
-- alias: LoungePlay
-  id: "1570972117222"
-  description: ""
-  trigger:
-    - payload: play
-      platform: mqtt
-      topic: ESP32/MediaPlayPause
-  condition: []
-  action:
-    - data:
-        entity_id: media_player.living_room
-      service: media_player.media_play
-- alias: LoungePause
-  id: "1570972117223"
-  description: ""
-  trigger:
-    - payload: pause
-      platform: mqtt
-      topic: ESP32/MediaPlayPause
-  condition: []
-  action:
-    - data:
-        entity_id: media_player.living_room
-      service: media_player.media_play_pause
-- alias: LoungeStop
-  id: "1570972117224"
-  description: ""
-  trigger:
-    - payload: stop
-      platform: mqtt
-      topic: ESP32/MediaPlayPause
-  condition: []
-  action:
-    - data:
-        entity_id: media_player.living_room
-      service: media_player.media_pause
-- alias: Update Media Detail
-  id: "1570972883585"
-  description: ""
-  trigger:
-    - entity_id: media_player.living_room
-      platform: state
-  condition: []
-  action:
-    - data:
-        payload_template:
-          '{"title":"{{ state_attr("media_player.living_room","media_title")
-          }}","artist":"{{ state_attr("media_player.living_room","media_artist") }}","album":"{{
-          state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
-        topic: ESP32/Media
-      service: mqtt.publish
-- alias: Morning Light On
-  id: "1571043340500"
-  description: ""
-  trigger:
-    - at: 07:00:00
-      platform: time
-  condition: []
-  action:
-    - data:
-        entity_id: light.bedroom
-      service: light.turn_on
-    - delay: 01:15:00
-    - data:
-        entity_id: light.bedroom
-      service: light.turn_off
-- alias: Sunset light on
-  id: "1499179881620"
-  trigger:
-    - platform: sun
-      event: sunset
-      offset: -01:00:00
-  action:
-    - delay: 00:{{ (range(1, 48)|random|int) }}:00
-    - service: light.turn_on
-      entity_id:
-        - light.living_room_main
-    - service: notify.locallog
-      data:
-        message: light on at {{now().strftime("%Y%m%d-%H%M%S")}}
-- alias: sensible lights off
-  id: "1499179881621"
-  trigger:
-    - platform: time
-      at: "22:45:00"
-  action:
-    - delay: 00:{{ (range(1, 58)|random|int) }}:00
-    - service: light.turn_off
-      entity_id:
-        - light.living_room_main
-    - service: notify.locallog
-      data:
-        message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
-- alias: PublishTime
-  id: "1571768139386"
-  description: ""
-  trigger:
-    - entity_id: sensor.date_time
-      platform: state
-  condition: []
-  action:
-    - data:
-        payload_template:
-          '{{ as_timestamp(now()) | timestamp_custom("%a, %d %B %Y -
-          %H:%M", false) }}'
-        topic: ESP32/datetime
-      service: mqtt.publish
-    - data:
-        payload_template:
-          '{{ as_timestamp(now()) | timestamp_custom("%d %b %Y - %H:%M",
-          false) }}'
-        topic: ESP32/datetimeshorter
-      service: mqtt.publish
-- alias: Publish Weather
-  id: "1571917792040"
-  description: ""
-  trigger:
-    - entity_id: weather.home_weather
-      platform: state
-  condition: []
-  action:
-    - data:
-        payload_template:
-          '{ "icon": "{{ states.weather.home_weather.state }}", "humidity":
-          "{{ state_attr("weather.home_weather","humidity") }}", "temp": "{{ state_attr("weather.home_weather","temperature")
-          }}", "precip": "{{ state_attr("weather.home_weather", "precipitation") }}"
-          }'
-        retain: true
-        topic: ESP32/forecast
-      service: mqtt.publish
-- alias: New Automation
-  id: "1572787059911"
-  description: ""
-  trigger:
-    - device_id: 13614b85e7b5447087b93456902c5bc5
-      domain: binary_sensor
-      entity_id: binary_sensor.multipurpose_sensor_contact
-      platform: device
-      type: opened
-  condition: []
-  action:
-    - condition: state
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: The front door just opened
+    service: tts.google_translate_say
+  - data:
+      payload: opened
+      topic: ESP32/FrontDoor
+    service: mqtt.publish
+  - delay: 00:00:30
+  - data:
+      payload: closed
+      topic: ESP32/FrontDoor
+    service: mqtt.publish
+  - data:
       entity_id: switch.living_room_tinyled
-      state: "on"
+    service: switch.toggle
+- alias: Welcome_home
+  id: '1570876349299'
+  description: ''
+  trigger:
+  - entity_id: device_tracker.marcpixel3xl
+    platform: state
+    to: home
+  condition:
+  - after: 07:00:00
+    before: '23:59:59'
+    condition: time
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: Welcome home Marc
+    service: tts.google_translate_say
+  - data:
+      entity_id: media_player.kitchen_speaker
+      language: en
+      message: Welcome home Marc
+    service: tts.google_translate_say
+- id: '1570876640812'
+  alias: LogPhoneAway
+  description: ''
+  trigger:
+  - entity_id: device_tracker.marcpixel3xl
+    platform: state
+    to: away
+  condition: []
+  action:
+  - data:
+      message: Logged phone disappearing.
+    service: persistent_notification.create
+- alias: Update Available Notification
+  id: '1570876640814'
+  trigger:
+  - entity_id: binary_sensor.updater
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - data_template:
+      message: Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")}}
+        is available.
+    service: notify.notify
+  - data:
+      title: Update available
+      message: Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")
+        }} is available.
+    service: persistent_notification.create
+- alias: LoungePlay
+  id: '1570972117222'
+  description: ''
+  trigger:
+  - payload: play
+    platform: mqtt
+    topic: ESP32/MediaPlayPause
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play
+- alias: LoungePause
+  id: '1570972117223'
+  description: ''
+  trigger:
+  - payload: pause
+    platform: mqtt
+    topic: ESP32/MediaPlayPause
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play_pause
+- alias: LoungeStop
+  id: '1570972117224'
+  description: ''
+  trigger:
+  - payload: stop
+    platform: mqtt
+    topic: ESP32/MediaPlayPause
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_pause
+- alias: Update Media Detail
+  id: '1570972883585'
+  description: ''
+  trigger:
+  - entity_id: media_player.living_room
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{"title":"{{ state_attr("media_player.living_room","media_title")
+        }}","artist":"{{ state_attr("media_player.living_room","media_artist") }}","album":"{{
+        state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
+      topic: ESP32/Media
+    service: mqtt.publish
+- alias: Morning Light On
+  id: '1571043340500'
+  description: ''
+  trigger:
+  - at: 07:00:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: light.bedroom
+    service: light.turn_on
+  - delay: 01:15:00
+  - data:
+      entity_id: light.bedroom
+    service: light.turn_off
+- alias: Sunset light on
+  id: '1499179881620'
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:00:00
+  action:
+  - delay: 00:{{ (range(1, 48)|random|int) }}:00
+  - service: light.turn_on
+    entity_id:
+    - light.living_room_main
+  - service: notify.locallog
+    data:
+      message: light on at {{now().strftime("%Y%m%d-%H%M%S")}}
+- alias: sensible lights off
+  id: '1499179881621'
+  trigger:
+  - platform: time
+    at: '22:45:00'
+  action:
+  - delay: 00:{{ (range(1, 58)|random|int) }}:00
+  - service: light.turn_off
+    entity_id:
+    - light.living_room_main
+  - service: notify.locallog
+    data:
+      message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
+- alias: PublishTime
+  id: '1571768139386'
+  description: ''
+  trigger:
+  - entity_id: sensor.date_time
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%a, %d %B %Y -
+        %H:%M", false) }}'
+      topic: ESP32/datetime
+    service: mqtt.publish
+  - data:
+      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%d %b %Y - %H:%M",
+        false) }}'
+      topic: ESP32/datetimeshorter
+    service: mqtt.publish
+- alias: Publish Weather
+  id: '1571917792040'
+  description: ''
+  trigger:
+  - entity_id: weather.home_weather
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{ "icon": "{{ states.weather.home_weather.state }}", "humidity":
+        "{{ state_attr("weather.home_weather","humidity") }}", "temp": "{{ state_attr("weather.home_weather","temperature")
+        }}", "precip": "{{ state_attr("weather.home_weather", "precipitation") }}"
+        }'
+      retain: true
+      topic: ESP32/forecast
+    service: mqtt.publish
 - alias: WLED Alerter
-  id: "1573306764530"
-  description: ""
+  id: '1573306764530'
+  description: ''
   trigger:
-    - entity_id: binary_sensor.multipurpose_sensor_contact
-      platform: state
-      to: "on"
+  - entity_id: binary_sensor.multipurpose_sensor_contact
+    platform: state
+    to: 'on'
   condition: []
   action:
-    - data:
-        entity_id: light.wled2_2
-        store_name: flash_store_wled2
-      service: python_script.light_store
-    - alias: ""
-      data:
-        color_name: red
-        effect: 11
-        entity_id: light.wled2_2
-      service: light.turn_on
-    - delay: '"00:00:20"'
-    - data:
-        operation: restore
-        store_name: flash_store_wled2
-      service: python_script.light_store
+  - data:
+      entity_id: light.wled2_2
+      store_name: flash_store_wled2
+    service: python_script.light_store
+  - alias: ''
+    data:
+      color_name: red
+      effect: 11
+      entity_id: light.wled2_2
+    service: light.turn_on
+  - delay: '"00:00:20"'
+  - data:
+      operation: restore
+      store_name: flash_store_wled2
+    service: python_script.light_store
 - alias: Media Player Button Press
-  id: "1573309148855"
-  description: ""
+  id: '1573309148855'
+  description: ''
   trigger:
-    - event_data:
-        name: Button
-        value: pushed
-      event_type: smartthings.button
-      platform: event
+  - event_data:
+      name: Button
+      value: pushed
+    event_type: smartthings.button
+    platform: event
   condition: []
   action:
-    - data:
-        entity_id: media_player.living_room
-      service: media_player.media_play_pause
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play_pause
 - alias: Media Player Button Double Press
-  id: "1573309148856"
-  description: ""
+  id: '1573309148856'
+  description: ''
   trigger:
-    - event_data:
-        name: Button
-        value: double
-      event_type: smartthings.button
-      platform: event
+  - event_data:
+      name: Button
+      value: double
+    event_type: smartthings.button
+    platform: event
   condition: []
   action:
-    - data:
-        entity_id: media_player.living_room
-      service: media_player.media_next_track
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_next_track
 - alias: Media Player Button Held
-  id: "1573309148857"
-  description: ""
+  id: '1573309148857'
+  description: ''
   trigger:
-    - event_data:
-        name: Button
-        value: held
-      event_type: smartthings.button
-      platform: event
+  - event_data:
+      name: Button
+      value: held
+    event_type: smartthings.button
+    platform: event
   condition: []
   action:
-    - data:
-        entity_id: light.work_light
-      service: light.toggle
-    - data:
-        entity_id: light.living_room_main
-      service: light.toggle
+  - data:
+      entity_id: light.work_light
+    service: light.toggle
+  - data:
+      entity_id: light.living_room_main
+    service: light.toggle
 - alias: Back Door Open
-  id: "1573310000714"
-  description: ""
+  id: '1573310000714'
+  description: ''
   trigger:
-    - entity_id: binary_sensor.back_door_openclose
-      platform: state
-      to: "on"
+  - entity_id: binary_sensor.back_door_openclose
+    platform: state
+    to: 'on'
   condition: []
   action:
-    - data:
-        entity_id: media_player.living_room_display
-        language: en
-        message: The back door just opened!
-      service: tts.google_translate_say
-    - data:
-        entity_id: media_player.kitchen_speaker
-        language: en
-        message: The back door just opened!
-      service: tts.google_translate_say
-    - data:
-        message: Back door opened
-      service: notify.pushbullet
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: The back door just opened!
+    service: tts.google_translate_say
+  - data:
+      entity_id: media_player.kitchen_speaker
+      language: en
+      message: The back door just opened!
+    service: tts.google_translate_say
+  - data:
+      message: Back door opened
+    service: notify.pushbullet
+- id: '1573753256328'
+  alias: workLight ikea switch on
+  description: ''
+  trigger:
+  - device_id: b5eaefa1046547c4845811388e1ef389
+    domain: deconz
+    platform: device
+    subtype: turn_on
+    type: remote_button_short_press
+  condition: []
+  action:
+  - data:
+      entity_id: light.work_light
+    service: light.turn_on
+- id: '1573753337374'
+  alias: WorkLight ikea switch off
+  description: ''
+  trigger:
+  - device_id: b5eaefa1046547c4845811388e1ef389
+    domain: deconz
+    platform: device
+    subtype: turn_off
+    type: remote_button_short_press
+  condition: []
+  action:
+  - data:
+      entity_id: light.work_light
+    service: light.turn_off
+- id: '1573757061366'
+  alias: IkeaVolumeControlTestDown
+  description: ''
+  trigger:
+  - device_id: a179231267c0497290c0b73b9f109a37
+    domain: deconz
+    platform: device
+    subtype: left
+    type: remote_button_rotated
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+    service: media_player.volume_down
+- id: '1573757084604'
+  alias: IkeaVolumeControlTestUp
+  description: ''
+  trigger:
+  - device_id: a179231267c0497290c0b73b9f109a37
+    domain: deconz
+    platform: device
+    subtype: right
+    type: remote_button_rotated
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+    service: media_player.volume_up
+- id: '1573762813212'
+  alias: Zigbee door 1 battery
+  description: ''
+  trigger:
+  - below: 30
+    device_id: 91b6fc76eaed47e59de3ac1888be4da7
+    domain: sensor
+    entity_id: sensor.back_door_battery_level
+    platform: device
+    type: battery_level
+  condition: []
+  action:
+  - data:
+      message: Battery low !!
+    service: persistent_notification.create
+- id: '1573822342601'
+  alias: Play Chris Country
+  description: ''
+  trigger:
+  - at: '12:00:00'
+    platform: time
+  condition: []
+  action:
+  - service: rest_command.play_chris_country
