@@ -384,3 +384,59 @@
   condition: []
   action:
   - service: rest_command.play_chris_country
+- id: '1573912472583'
+  alias: MainButtonBank-lights
+  description: ''
+  trigger:
+  - device_id: bd7d4ca591264bc8b70c18d88d30c882
+    domain: deconz
+    platform: device
+    subtype: turn_on
+    type: remote_button_short_press
+  condition: []
+  action:
+  - data:
+      entity_id: light.entertainment_area_1
+    service: light.toggle
+- id: '1573912523480'
+  alias: MainButtonBank-PlayPause
+  description: ''
+  trigger:
+  - device_id: bd7d4ca591264bc8b70c18d88d30c882
+    domain: deconz
+    platform: device
+    subtype: right
+    type: remote_button_short_press
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room
+    service: media_player.media_play_pause
+- id: '1573912690966'
+  alias: OnOffButtonLongPressOn
+  description: ''
+  trigger:
+  - device_id: b5eaefa1046547c4845811388e1ef389
+    domain: deconz
+    platform: device
+    subtype: turn_on
+    type: remote_button_long_release
+  condition: []
+  action:
+  - data:
+      entity_id: light.entertainment_area_1
+    service: light.turn_on
+- id: '1573912719731'
+  alias: OnOffButtonLongPressOff
+  description: ''
+  trigger:
+  - device_id: b5eaefa1046547c4845811388e1ef389
+    domain: deconz
+    platform: device
+    subtype: turn_off
+    type: remote_button_long_release
+  condition: []
+  action:
+  - data:
+      entity_id: light.entertainment_area_1
+    service: light.turn_off
