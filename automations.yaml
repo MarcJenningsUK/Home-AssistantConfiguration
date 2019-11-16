@@ -10,6 +10,7 @@
   - service: rest_command.turn_on_soundbar
   - delay: 00:00:01
   - service: rest_command.select_aux
+
 - alias: Front Door Notification
   id: '1570873396945'
   description: ''
@@ -36,6 +37,7 @@
   - data:
       entity_id: switch.living_room_tinyled
     service: switch.toggle
+
 - alias: Welcome_home
   id: '1570876349299'
   description: ''
@@ -58,8 +60,9 @@
       language: en
       message: Welcome home Marc
     service: tts.google_translate_say
-- id: '1570876640812'
-  alias: LogPhoneAway
+
+- alias: LogPhoneAway
+  id: '1570876640812'
   description: ''
   trigger:
   - entity_id: device_tracker.marcpixel3xl
@@ -70,6 +73,7 @@
   - data:
       message: Logged phone disappearing.
     service: persistent_notification.create
+
 - alias: Update Available Notification
   id: '1570876640814'
   trigger:
@@ -87,6 +91,7 @@
       message: Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")
         }} is available.
     service: persistent_notification.create
+
 - alias: LoungePlay
   id: '1570972117222'
   description: ''
@@ -99,6 +104,7 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play
+
 - alias: LoungePause
   id: '1570972117223'
   description: ''
@@ -111,6 +117,7 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play_pause
+
 - alias: LoungeStop
   id: '1570972117224'
   description: ''
@@ -123,6 +130,7 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_pause
+
 - alias: Update Media Detail
   id: '1570972883585'
   description: ''
@@ -137,6 +145,7 @@
         state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
       topic: ESP32/Media
     service: mqtt.publish
+
 - alias: Morning Light On
   id: '1571043340500'
   description: ''
@@ -152,6 +161,7 @@
   - data:
       entity_id: light.bedroom
     service: light.turn_off
+
 - alias: Sunset light on
   id: '1499179881620'
   trigger:
@@ -166,6 +176,7 @@
   - service: notify.locallog
     data:
       message: light on at {{now().strftime("%Y%m%d-%H%M%S")}}
+
 - alias: sensible lights off
   id: '1499179881621'
   trigger:
@@ -179,40 +190,7 @@
   - service: notify.locallog
     data:
       message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
-- alias: PublishTime
-  id: '1571768139386'
-  description: ''
-  trigger:
-  - entity_id: sensor.date_time
-    platform: state
-  condition: []
-  action:
-  - data:
-      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%a, %d %B %Y -
-        %H:%M", false) }}'
-      topic: ESP32/datetime
-    service: mqtt.publish
-  - data:
-      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%d %b %Y - %H:%M",
-        false) }}'
-      topic: ESP32/datetimeshorter
-    service: mqtt.publish
-- alias: Publish Weather
-  id: '1571917792040'
-  description: ''
-  trigger:
-  - entity_id: weather.home_weather
-    platform: state
-  condition: []
-  action:
-  - data:
-      payload_template: '{ "icon": "{{ states.weather.home_weather.state }}", "humidity":
-        "{{ state_attr("weather.home_weather","humidity") }}", "temp": "{{ state_attr("weather.home_weather","temperature")
-        }}", "precip": "{{ state_attr("weather.home_weather", "precipitation") }}"
-        }'
-      retain: true
-      topic: ESP32/forecast
-    service: mqtt.publish
+
 - alias: WLED Alerter
   id: '1573306764530'
   description: ''
@@ -237,6 +215,47 @@
       operation: restore
       store_name: flash_store_wled2
     service: python_script.light_store
+
+# MQTT publish stuff
+
+- alias: PublishTime
+  id: '1571768139386'
+  description: ''
+  trigger:
+  - entity_id: sensor.date_time
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%a, %d %B %Y -
+        %H:%M", false) }}'
+      topic: ESP32/datetime
+    service: mqtt.publish
+  - data:
+      payload_template: '{{ as_timestamp(now()) | timestamp_custom("%d %b %Y - %H:%M",
+        false) }}'
+      topic: ESP32/datetimeshorter
+    service: mqtt.publish
+
+- alias: Publish Weather
+  id: '1571917792040'
+  description: ''
+  trigger:
+  - entity_id: weather.home_weather
+    platform: state
+  condition: []
+  action:
+  - data:
+      payload_template: '{ "icon": "{{ states.weather.home_weather.state }}", "humidity":
+        "{{ state_attr("weather.home_weather","humidity") }}", "temp": "{{ state_attr("weather.home_weather","temperature")
+        }}", "precip": "{{ state_attr("weather.home_weather", "precipitation") }}"
+        }'
+      retain: true
+      topic: ESP32/forecast
+    service: mqtt.publish
+
+# Zigbee stuff
+
 - alias: Media Player Button Press
   id: '1573309148855'
   description: ''
@@ -251,6 +270,7 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play_pause
+
 - alias: Media Player Button Double Press
   id: '1573309148856'
   description: ''
@@ -265,6 +285,7 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_next_track
+
 - alias: Media Player Button Held
   id: '1573309148857'
   description: ''
@@ -282,6 +303,7 @@
   - data:
       entity_id: light.living_room_main
     service: light.toggle
+
 - alias: Back Door Open
   id: '1573310000714'
   description: ''
@@ -304,8 +326,9 @@
   - data:
       message: Back door opened
     service: notify.pushbullet
-- id: '1573753256328'
-  alias: workLight ikea switch on
+
+- alias: workLight ikea switch on
+  id: '1573753256328'
   description: ''
   trigger:
   - device_id: b5eaefa1046547c4845811388e1ef389
@@ -318,8 +341,9 @@
   - data:
       entity_id: light.work_light
     service: light.turn_on
-- id: '1573753337374'
-  alias: WorkLight ikea switch off
+
+- alias: WorkLight ikea switch off
+  id: '1573753337374'
   description: ''
   trigger:
   - device_id: b5eaefa1046547c4845811388e1ef389
@@ -332,8 +356,9 @@
   - data:
       entity_id: light.work_light
     service: light.turn_off
-- id: '1573757061366'
-  alias: IkeaVolumeControlTestDown
+
+- alias: IkeaVolumeControlTestDown
+  id: '1573757061366'
   description: ''
   trigger:
   - device_id: a179231267c0497290c0b73b9f109a37
@@ -346,8 +371,9 @@
   - data:
       entity_id: media_player.living_room_display
     service: media_player.volume_down
-- id: '1573757084604'
-  alias: IkeaVolumeControlTestUp
+
+- alias: IkeaVolumeControlTestUp
+  id: '1573757084604'
   description: ''
   trigger:
   - device_id: a179231267c0497290c0b73b9f109a37
@@ -360,8 +386,9 @@
   - data:
       entity_id: media_player.living_room_display
     service: media_player.volume_up
-- id: '1573762813212'
-  alias: Zigbee door 1 battery
+
+- alias: Zigbee door 1 battery
+  id: '1573762813212'
   description: ''
   trigger:
   - below: 30
@@ -375,8 +402,9 @@
   - data:
       message: Battery low !!
     service: persistent_notification.create
-- id: '1573822342601'
-  alias: Play Chris Country
+
+- alias: Play Chris Country
+  id: '1573822342601'
   description: ''
   trigger:
   - at: '12:00:00'
@@ -384,8 +412,9 @@
   condition: []
   action:
   - service: rest_command.play_chris_country
-- id: '1573912472583'
-  alias: MainButtonBank-lights
+
+- alias: MainButtonBank-lights
+  id: '1573912472583'
   description: ''
   trigger:
   - device_id: bd7d4ca591264bc8b70c18d88d30c882
@@ -398,8 +427,9 @@
   - data:
       entity_id: light.entertainment_area_1
     service: light.toggle
-- id: '1573912523480'
-  alias: MainButtonBank-PlayPause
+
+- alias: MainButtonBank-PlayPause
+  id: '1573912523480'
   description: ''
   trigger:
   - device_id: bd7d4ca591264bc8b70c18d88d30c882
@@ -412,8 +442,9 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play_pause
-- id: '1573912690966'
-  alias: OnOffButtonLongPressOn
+
+- alias: OnOffButtonLongPressOn
+  id: '1573912690966'
   description: ''
   trigger:
   - device_id: b5eaefa1046547c4845811388e1ef389
@@ -426,8 +457,9 @@
   - data:
       entity_id: light.entertainment_area_1
     service: light.turn_on
-- id: '1573912719731'
-  alias: OnOffButtonLongPressOff
+
+- alias: OnOffButtonLongPressOff
+  id: '1573912719731'
   description: ''
   trigger:
   - device_id: b5eaefa1046547c4845811388e1ef389
