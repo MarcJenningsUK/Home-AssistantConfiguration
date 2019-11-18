@@ -7,6 +7,7 @@
 *.pickle
 .cloud
 .storage
+Playlister
 .uuid
 core.*
 OZW_Log.txt

@@ -66,6 +66,14 @@ rest_command:
     url: 'http://192.168.1.21:9000/status.txt?p0=favorites&p1=playlist&p2=play&p3=item_id:3&p4=shuffle:1&player=00:04:20:23:6c:b4'
   play_first_playlist:
     url: 'http://192.168.1.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:26127&player=00:04:20:23:6c:b4'
+  play_from_dropdown:
+    url: 'http://192.168.1.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:{{ states.input_select.playlists.state|regex_findall_index("\d{3,}", ignorecase=FALSE) }}&player=00:04:20:23:6c:b4'
+
+input_select:
+  playlists:
+    name: LMS playlists
+    options:  
+      - marc
 
 device_tracker:
   - platform: nmap_tracker
@@ -99,3 +107,5 @@ switch:
       - light.work_light
     disable_brightness_adjust: true
 
+shell_command:
+  refresh_playlists: /config/Playlister/Playlister

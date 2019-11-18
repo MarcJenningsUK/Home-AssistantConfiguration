@@ -413,6 +413,14 @@
   action:
   - service: rest_command.play_chris_country
 
+- alias: Play From Dropdown
+  id: '1573822342602'
+  description: ''
+  trigger: []
+  condition: []
+  action:
+  - service: rest_command.play_from_dropdown
+
 - alias: MainButtonBank-lights
   id: '1573912472583'
   description: ''
