@@ -68,6 +68,9 @@ rest_command:
     url: 'http://192.168.1.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:26127&player=00:04:20:23:6c:b4'
   play_from_dropdown:
     url: 'http://192.168.1.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:{{ states.input_select.playlists.state|regex_findall_index("\d{3,}", ignorecase=FALSE) }}&player=00:04:20:23:6c:b4'
+  play_deezer_flow:
+    url: 'http://192.168.1.21:9000/anyurl?p0=playlist&p1=play&p2=deezer%3A%2F%2Fflow.dzr&p3=Deezer%20Flow&player=00%3A04%3A20%3A23%3A6c%3Ab4'
+
 
 input_select:
   playlists:

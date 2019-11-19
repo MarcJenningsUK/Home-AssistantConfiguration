@@ -10,7 +10,6 @@
   - service: rest_command.turn_on_soundbar
   - delay: 00:00:01
   - service: rest_command.select_aux
-
 - alias: Front Door Notification
   id: '1570873396945'
   description: ''
@@ -37,7 +36,6 @@
   - data:
       entity_id: switch.living_room_tinyled
     service: switch.toggle
-
 - alias: Welcome_home
   id: '1570876349299'
   description: ''
@@ -60,7 +58,6 @@
       language: en
       message: Welcome home Marc
     service: tts.google_translate_say
-
 - alias: LogPhoneAway
   id: '1570876640812'
   description: ''
@@ -73,7 +70,6 @@
   - data:
       message: Logged phone disappearing.
     service: persistent_notification.create
-
 - alias: Update Available Notification
   id: '1570876640814'
   trigger:
@@ -91,7 +87,6 @@
       message: Home Assistant {{ state_attr("binary_sensor.updater", "newest_version")
         }} is available.
     service: persistent_notification.create
-
 - alias: LoungePlay
   id: '1570972117222'
   description: ''
@@ -104,7 +99,6 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play
-
 - alias: LoungePause
   id: '1570972117223'
   description: ''
@@ -117,7 +111,6 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play_pause
-
 - alias: LoungeStop
   id: '1570972117224'
   description: ''
@@ -130,7 +123,6 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_pause
-
 - alias: Update Media Detail
   id: '1570972883585'
   description: ''
@@ -145,7 +137,6 @@
         state_attr("media_player.living_room","media_album_name") }}","state":"{{states.media_player.living_room.state}}"}'
       topic: ESP32/Media
     service: mqtt.publish
-
 - alias: Morning Light On
   id: '1571043340500'
   description: ''
@@ -161,7 +152,6 @@
   - data:
       entity_id: light.bedroom
     service: light.turn_off
-
 - alias: Sunset light on
   id: '1499179881620'
   trigger:
@@ -176,7 +166,6 @@
   - service: notify.locallog
     data:
       message: light on at {{now().strftime("%Y%m%d-%H%M%S")}}
-
 - alias: sensible lights off
   id: '1499179881621'
   trigger:
@@ -190,7 +179,6 @@
   - service: notify.locallog
     data:
       message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
-
 - alias: WLED Alerter
   id: '1573306764530'
   description: ''
@@ -215,9 +203,6 @@
       operation: restore
       store_name: flash_store_wled2
     service: python_script.light_store
-
-# MQTT publish stuff
-
 - alias: PublishTime
   id: '1571768139386'
   description: ''
@@ -236,7 +221,6 @@
         false) }}'
       topic: ESP32/datetimeshorter
     service: mqtt.publish
-
 - alias: Publish Weather
   id: '1571917792040'
   description: ''
@@ -253,9 +237,6 @@
       retain: true
       topic: ESP32/forecast
     service: mqtt.publish
-
-# Zigbee stuff
-
 - alias: Media Player Button Press
   id: '1573309148855'
   description: ''
@@ -270,7 +251,6 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play_pause
-
 - alias: Media Player Button Double Press
   id: '1573309148856'
   description: ''
@@ -285,7 +265,6 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_next_track
-
 - alias: Media Player Button Held
   id: '1573309148857'
   description: ''
@@ -303,7 +282,6 @@
   - data:
       entity_id: light.living_room_main
     service: light.toggle
-
 - alias: Back Door Open
   id: '1573310000714'
   description: ''
@@ -326,7 +304,6 @@
   - data:
       message: Back door opened
     service: notify.pushbullet
-
 - alias: workLight ikea switch on
   id: '1573753256328'
   description: ''
@@ -341,7 +318,6 @@
   - data:
       entity_id: light.work_light
     service: light.turn_on
-
 - alias: WorkLight ikea switch off
   id: '1573753337374'
   description: ''
@@ -356,7 +332,6 @@
   - data:
       entity_id: light.work_light
     service: light.turn_off
-
 - alias: IkeaVolumeControlTestDown
   id: '1573757061366'
   description: ''
@@ -371,7 +346,6 @@
   - data:
       entity_id: media_player.living_room_display
     service: media_player.volume_down
-
 - alias: IkeaVolumeControlTestUp
   id: '1573757084604'
   description: ''
@@ -386,7 +360,6 @@
   - data:
       entity_id: media_player.living_room_display
     service: media_player.volume_up
-
 - alias: Zigbee door 1 battery
   id: '1573762813212'
   description: ''
@@ -402,17 +375,13 @@
   - data:
       message: Battery low !!
     service: persistent_notification.create
-
-- alias: Play Chris Country
-  id: '1573822342601'
+- id: '1573822342601'
+  alias: Play Chris Country
   description: ''
-  trigger:
-  - at: '12:00:00'
-    platform: time
+  trigger: []
   condition: []
   action:
   - service: rest_command.play_chris_country
-
 - alias: Play From Dropdown
   id: '1573822342602'
   description: ''
@@ -420,7 +389,6 @@
   condition: []
   action:
   - service: rest_command.play_from_dropdown
-
 - alias: MainButtonBank-lights
   id: '1573912472583'
   description: ''
@@ -435,7 +403,6 @@
   - data:
       entity_id: light.entertainment_area_1
     service: light.toggle
-
 - alias: MainButtonBank-PlayPause
   id: '1573912523480'
   description: ''
@@ -450,7 +417,6 @@
   - data:
       entity_id: media_player.living_room
     service: media_player.media_play_pause
-
 - alias: OnOffButtonLongPressOn
   id: '1573912690966'
   description: ''
@@ -465,7 +431,6 @@
   - data:
       entity_id: light.entertainment_area_1
     service: light.turn_on
-
 - alias: OnOffButtonLongPressOff
   id: '1573912719731'
   description: ''
