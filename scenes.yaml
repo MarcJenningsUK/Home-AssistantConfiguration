@@ -1,0 +1,50 @@
+- id: '1574366565404'
+  name: TV
+  entities:
+    light.living_room_main:
+      brightness: 164
+      effect: none
+      hs_color:
+      - 38.222
+      - 52.941
+      rgb_color:
+      - 255
+      - 205
+      - 120
+      state: 'on'
+      xy_color:
+      - 0.459
+      - 0.408
+    light.work_light:
+      brightness: 119
+      effect: none
+      hs_color:
+      - 38.222
+      - 52.941
+      rgb_color:
+      - 255
+      - 205
+      - 120
+      state: 'on'
+      xy_color:
+      - 0.459
+      - 0.408
+- name: Evening
+  id: '1574366565405'
+  entities:
+    light.work_light: 
+      state: on
+      brightness: 128
+    light.living_room_main: 
+      state: on
+      brightness: 128
+- name: Working
+  id: '1574366565406'
+  entities:
+    light.work_light: 
+      state: on
+      brightness: 255
+    light.living_room_main: 
+      state: on
+      brightness: 255
+

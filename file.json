@@ -1,0 +1,1 @@
+{"method":"slim.request","params":["",["playlists","0","10"]],"result":{"count":3,"playlists_loop":[{"playlist":"Harry Connick Jr","id":26131},{"id":26130,"playlist":"Laid Back and Country"},{"id":26127,"playlist":"SA Live"}]},"id":1}

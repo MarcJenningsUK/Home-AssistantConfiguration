@@ -445,3 +445,42 @@
   - data:
       entity_id: light.entertainment_area_1
     service: light.turn_off
+- id: '1574188135386'
+  alias: Go To Bed
+  description: ''
+  trigger:
+  - device_id: bd7d4ca591264bc8b70c18d88d30c882
+    domain: deconz
+    platform: device
+    subtype: turn_on
+    type: remote_button_long_press
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.living_room_display
+      language: en
+      message: Good night.
+    service: tts.google_translate_say
+  - delay: 00:00:10
+  - data:
+      entity_id: light.work_light
+    service: light.turn_off
+  - data:
+      entity_id: light.living_room_main
+    service: light.turn_off
+- id: '1574367191503'
+  alias: turn on living room main when I get home after sunset
+  description: ''
+  trigger:
+  - entity_id: device_tracker.marcpixel3xl
+    event: enter
+    platform: zone
+    zone: zone.home
+  condition:
+  - after: sunset
+    condition: sun
+  action:
+  - device_id: 4ec5e18298d740c0bedcc8cdf99817e7
+    domain: light
+    entity_id: light.living_room_main
+    type: turn_on

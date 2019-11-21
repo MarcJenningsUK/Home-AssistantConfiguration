@@ -1,0 +1,7 @@
+# sensor:
+#   - platform: pushbullet
+#     fiendly_name: PB Incoming
+#     api_key: !secret pushbullet_password
+#     monitored_conditions:
+#       - body
+#       - source_device_iden
