@@ -16,7 +16,11 @@ sensor: !include_dir_merge_list sensor
 scene: !include scenes.yaml
 python_script: 
 mobile_app:
-# influxdb: !include influxdb.yaml
+influxdb: !include influxdb.yaml
+logger:
+  default: warning
+  logs:
+      homeassistant.components.influxdb: debug
 
 # Text to speech
 tts:
