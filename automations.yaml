@@ -179,8 +179,8 @@
   - service: notify.locallog
     data:
       message: light off at {{now().strftime("%Y%m%d-%H%M%S")}}
-- alias: WLED Alerter
-  id: '1573306764530'
+- id: '1573306764530'
+  alias: WLED Alerter
   description: ''
   trigger:
   - entity_id: binary_sensor.multipurpose_sensor_contact
@@ -188,21 +188,12 @@
     to: 'on'
   condition: []
   action:
+  - scene: scene.alerting
+  - delay: 00:00:10
+  - scene: scene.twinkling
   - data:
-      entity_id: light.wled2_2
-      store_name: flash_store_wled2
-    service: python_script.light_store
-  - alias: ''
-    data:
-      color_name: red
-      effect: 11
-      entity_id: light.wled2_2
-    service: light.turn_on
-  - delay: '"00:00:20"'
-  - data:
-      operation: restore
-      store_name: flash_store_wled2
-    service: python_script.light_store
+      message: done
+    service: persistent_notification.create
 - alias: PublishTime
   id: '1571768139386'
   description: ''

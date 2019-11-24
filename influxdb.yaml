@@ -1,0 +1,27 @@
+host: 192.168.1.21
+database: haenv
+ssl: false
+verify_ssl: true
+max_retries: 3
+default_measurement: state
+include:
+  entities:
+    - sensor.blink_front_door_temperature
+    - sensor.blink_kitchen_temperature
+    - sensor.blink_living_room_temperature
+    - sensor.blink_shed_691_144_311_temperature
+    - sensor.blink_xt_one_temperature
+    - sensor.button_temperature_measurement
+    - sensor.garage_humidity
+    - sensor.garage_temperature
+    - sensor.halltemperature
+    - sensor.lounge_humidity
+    - sensor.lounge_temperature
+    - sensor.motion_sensor_temperature_measurement
+    - sensor.multipurpose_sensor_temperature_measurement
+    # - sensor.office_aqara_air_pressure
+    - sensor.office_aqara_humidity
+    - sensor.office_aqara_temperature
+    - sensor.office_humidity
+    - sensor.office_temperature
+    - sensor.water_leak_sensor_temperature_measurement

@@ -32,19 +32,64 @@
 - name: Evening
   id: '1574366565405'
   entities:
-    light.work_light: 
-      state: on
+    light.work_light:
+      state: true
       brightness: 128
-    light.living_room_main: 
-      state: on
+    light.living_room_main:
+      state: true
       brightness: 128
 - name: Working
   id: '1574366565406'
   entities:
-    light.work_light: 
-      state: on
+    light.work_light:
+      state: true
       brightness: 255
-    light.living_room_main: 
-      state: on
+    light.living_room_main:
+      state: true
       brightness: 255
-
+- id: '1574418733776'
+  name: Alerting
+  entities:
+    light.wled2_2:
+      brightness: 33
+      effect: Scanner
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      state: 'on'
+      xy_color:
+      - 0.701
+      - 0.299
+    switch.wled2_nightlight:
+      state: 'off'
+    switch.wled2_sync_receive:
+      state: 'on'
+    switch.wled2_sync_send:
+      state: 'off'
+- id: '1574418761889'
+  name: Twinkling
+  entities:
+    light.wled2_2:
+      brightness: 33
+      effect: Twinklecat
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      state: 'on'
+      xy_color:
+      - 0.701
+      - 0.299
+    switch.wled2_nightlight:
+      state: 'off'
+    switch.wled2_sync_receive:
+      state: 'on'
+    switch.wled2_sync_send:
+      state: 'off'
