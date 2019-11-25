@@ -188,12 +188,9 @@
     to: 'on'
   condition: []
   action:
-  - scene: scene.alerting
-  - delay: 00:00:10
-  - scene: scene.twinkling
-  - data:
-      message: done
-    service: persistent_notification.create
+  - alias: ''
+    data: {}
+    service: shell_command.wledalerter
 - alias: PublishTime
   id: '1571768139386'
   description: ''

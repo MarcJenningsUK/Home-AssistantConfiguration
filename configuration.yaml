@@ -17,10 +17,6 @@ scene: !include scenes.yaml
 python_script: 
 mobile_app:
 influxdb: !include influxdb.yaml
-logger:
-  default: warning
-  logs:
-      homeassistant.components.influxdb: debug
 
 # Text to speech
 tts:
@@ -28,6 +24,9 @@ tts:
     cache: true
     cache_dir: /tmp/tts
 recorder: !include recorder.yaml
+
+shell_command:
+  wledalerter: "/config/shell_command/alert_wled.sh 10 192.168.1.242"
 
 remote:
   - platform: harmony
@@ -119,5 +118,3 @@ switch:
       - light.work_light
     disable_brightness_adjust: true
 
-shell_command:
-  refresh_playlists: /config/Playlister/Playlister
