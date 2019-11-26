@@ -1,4 +1,4 @@
-host: 192.168.1.21
+host: 192.168.2.21
 max_retries: 3
 include:
   entities:
@@ -15,6 +15,8 @@ include:
     - sensor.halltemperature
     - sensor.lounge_humidity
     - sensor.lounge_temperature
+    - sensor.living_room_humidity
+    - sensor.living_room_temperature
     - sensor.motion_sensor_temperature_measurement
     - sensor.multipurpose_sensor_temperature_measurement
     - sensor.office_aqara_humidity

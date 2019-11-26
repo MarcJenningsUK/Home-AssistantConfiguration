@@ -31,18 +31,18 @@ shell_command:
 remote:
   - platform: harmony
     name: "Lounge Hub"
-    host: 192.168.1.187
+    host: 192.168.3.17
 
 media_player:
   - platform: samsungtv
-    host: 192.168.1.17
+    host: 192.168.2.20
     mac: 5C:49:7D:56:3D:F6
     port: 8001
   - platform: samsungtv
-    host: 192.168.1.26
+    host: 192.168.2.55
     name: Soundbar    
   - platform: squeezebox
-    host: 192.168.1.21
+    host: 192.168.2.21
 
 notify:
   - name: pushbullet
@@ -63,17 +63,17 @@ blink:
 
 rest_command:
   turn_on_soundbar:
-    url: 'http://192.168.1.26:55001/UIC?cmd=%3Cname%3ESetPlaybackControl%3C/name%3E%3Cp%20type=%22str%22%20name=%22playbackcontrol%22%20val=%22play%22/%3E'
+    url: 'http://192.168.2.55:55001/UIC?cmd=%3Cname%3ESetPlaybackControl%3C/name%3E%3Cp%20type=%22str%22%20name=%22playbackcontrol%22%20val=%22play%22/%3E'
   select_aux:
-    url: 'http://192.168.1.26:55001/UIC?cmd=%3Cname%3ESetFunc%3C/name%3E%3Cp%20type=%22str%22%20name=%22function%22%20val=%22aux%22/%3E'
+    url: 'http://192.168.2.55:55001/UIC?cmd=%3Cname%3ESetFunc%3C/name%3E%3Cp%20type=%22str%22%20name=%22function%22%20val=%22aux%22/%3E'
   play_chris_country:
-    url: 'http://192.168.1.21:9000/status.txt?p0=favorites&p1=playlist&p2=play&p3=item_id:3&p4=shuffle:1&player=00:04:20:23:6c:b4'
+    url: 'http://192.168.2.21:9000/status.txt?p0=favorites&p1=playlist&p2=play&p3=item_id:3&p4=shuffle:1&player=00:04:20:23:6c:b4'
   play_first_playlist:
-    url: 'http://192.168.1.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:26127&player=00:04:20:23:6c:b4'
+    url: 'http://192.168.2.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:26127&player=00:04:20:23:6c:b4'
   play_from_dropdown:
-    url: 'http://192.168.1.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:{{ states.input_select.playlists.state|regex_findall_index("\d{3,}", ignorecase=FALSE) }}&player=00:04:20:23:6c:b4'
+    url: 'http://192.168.2.21:9000/anyurl?p0=playlistcontrol&p1=cmd:load&p2=playlist_id:{{ states.input_select.playlists.state|regex_findall_index("\d{3,}", ignorecase=FALSE) }}&player=00:04:20:23:6c:b4'
   play_deezer_flow:
-    url: 'http://192.168.1.21:9000/anyurl?p0=playlist&p1=play&p2=deezer%3A%2F%2Fflow.dzr&p3=Deezer%20Flow&player=00%3A04%3A20%3A23%3A6c%3Ab4'
+    url: 'http://192.168.2.21:9000/anyurl?p0=playlist&p1=play&p2=deezer%3A%2F%2Fflow.dzr&p3=Deezer%20Flow&player=00%3A04%3A20%3A23%3A6c%3Ab4'
 
 
 input_select:
@@ -95,19 +95,19 @@ hive:
 panel_iframe:
   esphome:
     title: "ESP Home"
-    url: http://192.168.1.21:6052/
+    url: http://192.168.2.21:6052/
     icon: mdi:access-point-network
   deconz:
     title: deConz
     icon: mdi:zigbee
-    url: http://192.168.1.21:8181
+    url: http://192.168.2.21:8181
   webmin:
     title: Webmin
-    url: http://192.168.1.21:10000/
+    url: http://192.168.2.21:10000/
     icon: mdi:account-badge
   chronograf:
     title: Temperatures
-    url: http://192.168.1.21:8888/sources/0/dashboards/2?lower=now%28%29%20-%2012h
+    url: http://192.168.2.21:8888/sources/0/dashboards/2?lower=now%28%29%20-%2012h
     icon: mdi:thermometer
 
 
