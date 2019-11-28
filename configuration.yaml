@@ -23,10 +23,15 @@ tts:
   - platform: google_translate
     cache: true
     cache_dir: /tmp/tts
+  - platform: microsoft
+    api_key: !secret msttskey
+    type: Susan, Apollo
+    region: uksouth
+
 recorder: !include recorder.yaml
 
 shell_command:
-  wledalerter: "/config/shell_command/alert_wled.sh 10 192.168.1.242"
+  wledalerter: "/config/shell_command/alert_wled.sh 10 192.168.3.10"
 
 remote:
   - platform: harmony
@@ -34,13 +39,13 @@ remote:
     host: 192.168.3.17
 
 media_player:
-  - platform: samsungtv
-    host: 192.168.2.20
-    mac: 5C:49:7D:56:3D:F6
-    port: 8001
-  - platform: samsungtv
-    host: 192.168.2.55
-    name: Soundbar    
+#  - platform: samsungtv
+#    host: 192.168.2.20
+#    mac: 5C:49:7D:56:3D:F6
+#    port: 8001
+#  - platform: samsungtv
+#    host: 192.168.2.55
+#    name: Soundbar    
   - platform: squeezebox
     host: 192.168.2.21
 

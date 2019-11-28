@@ -1,10 +1,11 @@
 #!/bin/bash
 
 echo ${1:-7}
-echo http://${2:-192.168.1.242}/json/state
+server=http://${2:-192.168.3.10}/json/state
+echo $server
 
-result=$(wget -qO- http://${2:-192.168.1.242}/json/state)
-curl --header "Content-Type: application/json" --request POST --data '{"on":true,"bri":20,"transition":7,"seg":[{"id":0,"start":0,"stop":144,"len":144,"col":[[255,0,0],[255,34,0],[0,0,0]],"fx":1,"sx":196,"ix":185,"pal":1,"sel":true,"rev":false,"cln":-1}]}' http://${2:-192.168.1.242}/json/state
+result=$(wget -qO- $server)
+curl --header "Content-Type: application/json" --request POST --data '{"on":true,"bri":21,"transition":7, "ps":-1,"pl":-1,"nl":{"on":false,"dur":60,"fade":true,"tbri":0},"udpn":{"send":false,"recv":true},"seg":[{"id":0,"start":0,"stop":144,"len":144,"col":[[0,0,255],[255,0,0],[0,0,0]],"fx":1,"sx":196,"ix":128,"pal":5,"sel":true,"rev":false,"cln":-1}]}' $server
 sleep ${1:-7}
-curl --header "Content-Type: application/json" --request POST --data $result http://${2:-192.168.1.242}/json/state
+curl --header "Content-Type: application/json" --request POST --data $result $server
 

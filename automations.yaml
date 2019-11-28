@@ -20,7 +20,7 @@
   condition: []
   action:
   - data:
-      entity_id: media_player.living_room_display
+      entity_id: media_player.living_room_display_2
       language: en
       message: The front door just opened
     service: tts.google_translate_say
@@ -472,3 +472,24 @@
     domain: light
     entity_id: light.living_room_main
     type: turn_on
+- id: '1574803985308'
+  alias: Publish Temperatures
+  description: ''
+  trigger:
+  - above: -100
+    below: 100
+    device_id: e2f84767a390416f8e71e1a29fe900b7
+    domain: sensor
+    entity_id: sensor.living_room_temperature
+    platform: device
+    type: value
+  condition: []
+  action:
+  - data:
+      payload_template: '{{states.sensor.living_room_temperature.state }}'
+      topic: ESP8266/Temperature
+    service: mqtt.publish
+  - data:
+      payload_template: '{{states.sensor.living_room_humidity.state }}'
+      topic: ESP8266/Humidity
+    service: mqtt.publish
