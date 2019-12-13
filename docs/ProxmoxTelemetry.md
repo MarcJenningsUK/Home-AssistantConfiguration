@@ -22,6 +22,8 @@ Enter the following in the file
       server 192.168.3.3
       port 8089
  
+Remember to replace the IP and port numbers to match your own network!!!
+
 See https://pve.proxmox.com/wiki/External_Metric_Server for details
 
 ### InfluxDB setup
