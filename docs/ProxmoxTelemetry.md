@@ -52,3 +52,5 @@ Now save and exit the file and restart Influx with
 > service influxdb restart
 
 That's it.  Telemetry should start to flow into InfluxDB.  After that you can set up some reporting in Grafana or Chronograf and be happy.
+
+![](statusStats.png)
