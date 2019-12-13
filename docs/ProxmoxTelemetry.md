@@ -30,7 +30,7 @@ You'll need to open a UDP port for the telemetry data.  Proxmox doesn't use othe
 
 On your influxDB server, edit the config file
 
-> https://pve.proxmox.com/wiki/External_Metric_Server
+> nano /etc/influxdb/influxdb.conf
 
 and find the section that controls UDP access.  This has a header of [[UDP]]
 
