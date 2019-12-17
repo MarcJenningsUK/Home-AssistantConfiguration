@@ -26,3 +26,8 @@ Hopefully that nugget will help someone
 
 Notes
 As you can see from the config files within the main github area, I'm running with "default_config:" right now, and the MQTT integration added through the integrations page. Nothing special. Stuff just works.
+
+
+### Read more...
+
+* [All Posts](https://marcjenningsuk.github.io/Home-AssistantConfiguration/)
