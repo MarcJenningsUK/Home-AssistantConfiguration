@@ -28,3 +28,7 @@ To pull that out to, for example, a persistent notification, you can use the fol
 
 ![](CalOff2.png)
 
+
+### Read more...
+
+* [All Posts](https://marcjenningsuk.github.io/Home-AssistantConfiguration/)
