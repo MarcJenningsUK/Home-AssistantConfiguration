@@ -1,6 +1,6 @@
 # Proxmox telemetry via Influxdb and Chronograf
 
-I wanted to get some telemetry data from my Proxmox instance - primarily so I could make sure there were no times of the day or week where I was unduly streesing the machine.  To achieve this I spent a few minutes configuring the server to log telemetry data to InfluxDB.  Surprisingly, it was relatively simple to do.
+I wanted to get some telemetry data from my Proxmox instance - primarily so I could make sure there were no times of the day or week where I was unduly stressing the machine.  To achieve this I spent a few minutes configuring the server to log telemetry data to InfluxDB.  Surprisingly, it was relatively simple to do.
 
 ## Pre-requisites
 
