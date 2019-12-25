@@ -244,8 +244,8 @@
 			{
 				"t": "set",
 				"p": "CumulativeResultList",
-				"pt": "msg",
-				"to": "",
+				"pt": "flow",
+				"to": " ",
 				"tot": "str"
 			}
 		],
@@ -456,7 +456,7 @@
 		"complete": "true",
 		"targetType": "full",
 		"x": 1150,
-		"y": 800,
+		"y": 760,
 		"wires": []
 	},
 	{
@@ -481,7 +481,7 @@
 		"type": "function",
 		"z": "4ba1945d.cb84dc",
 		"name": "ProcessResults",
-		"func": "if(msg.payload[0].value.rspCode == 200)\n{\n    msg.CumulativeResultList == \"Camera \" + msg.CurrentChannel + \" was \" + msg.DesiredState + \"\\r\\n\";\n    msg.ResultList = \"Camera \" + msg.CurrentChannel + \" was \" + msg.DesiredState + \"\\r\\n\";\n    msg.payload = { \"Domain\": \"system_log\", \"Service\":\"write\", \"data\": {\"level\":\"debug\", \"message\": msg.ResultList } }\n    msg.successCount++;\n}\nelse\n{\n    msg.CumulativeResultList == \"Camera \" + msg.CurrentChannel + \" failed with code \" + msg.payload[0].value.rspCode + \"\\r\\n\";\n    msg.ResultList = msg.payload[0].value.rspCode;\n    msg.payload = { \"Domain\": \"system_log\", \"Service\":\"write\", \"data\": {\"level\":\"error\", \"message\": msg.ResultList } }\n    msg.failureCount++;\n}\nreturn msg;",
+		"func": "var crl = flow.get('CumulativeResultList');\n\nif(msg.payload[0].value.rspCode == 200)\n{\n    crl += \"Camera \" + msg.CurrentChannel + \" was \" + msg.DesiredState + \"\\r\\n\";\n    msg.ResultList = \"Camera \" + msg.CurrentChannel + \" was \" + msg.DesiredState + \"\\r\\n\";\n    msg.payload = { \"Domain\": \"system_log\", \"Service\":\"write\", \"data\": {\"level\":\"debug\", \"message\": msg.ResultList } }\n    msg.successCount++;\n}\nelse\n{\n    crl += \"Camera \" + msg.CurrentChannel + \" failed with code \" + msg.payload[0].value.rspCode + \"\\r\\n\";\n    msg.ResultList = \"Camera \" + msg.CurrentChannel + \" failed with code \" + msg.payload[0].value.rspCode + \"\\r\\n\";\n    msg.payload = { \"Domain\": \"system_log\", \"Service\":\"write\", \"data\": {\"level\":\"error\", \"message\": msg.ResultList } }\n    msg.failureCount++;\n}\n\nflow.set('CumulativeResultList', crl);\n\nreturn msg;",
 		"outputs": 1,
 		"noerr": 0,
 		"x": 900,
@@ -663,8 +663,8 @@
 		"persist": false,
 		"proxy": "",
 		"authType": "",
-		"x": 870,
-		"y": 800,
+		"x": 850,
+		"y": 760,
 		"wires": [
 			[
 				"39938d1.21bfe72"
@@ -680,7 +680,7 @@
 		"outputs": 1,
 		"noerr": 0,
 		"x": 610,
-		"y": 800,
+		"y": 760,
 		"wires": [
 			[
 				"59027287.36119c"
@@ -743,6 +743,11 @@
 				"property": "Start State",
 				"value": "StartingState",
 				"valueType": "jsonata"
+			},
+			{
+				"property": "Log output",
+				"value": "CumulativeResultList",
+				"valueType": "flow"
 			}
 		],
 		"resend": true,
@@ -750,7 +755,7 @@
 		"outputLocationType": "none",
 		"inputOverride": "allow",
 		"x": 610,
-		"y": 840,
+		"y": 800,
 		"wires": [
 			[]
 		]
