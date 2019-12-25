@@ -240,6 +240,13 @@
 				"pt": "msg",
 				"to": "0",
 				"tot": "num"
+			},
+			{
+				"t": "set",
+				"p": "CumulativeResultList",
+				"pt": "msg",
+				"to": "",
+				"tot": "str"
 			}
 		],
 		"action": "",
@@ -305,7 +312,7 @@
 		"name": "",
 		"property": "Channels",
 		"inputFlow": "feedback",
-		"saveOutput": 0,
+		"saveOutput": 1,
 		"recursive": 0,
 		"storeId": 0,
 		"x": 350,
@@ -315,7 +322,8 @@
 				"e26d01fc.bf0eb"
 			],
 			[
-				"439108ea.88bf08"
+				"439108ea.88bf08",
+				"823ea85d.e1e088"
 			]
 		],
 		"info": "Loop through the defined cameras so we can set properties individually"
@@ -689,6 +697,63 @@
 		"x": 590,
 		"y": 440,
 		"wires": []
+	},
+	{
+		"id": "823ea85d.e1e088",
+		"type": "ha-entity",
+		"z": "4ba1945d.cb84dc",
+		"name": "",
+		"server": "4bcb56e6.9e32f8",
+		"version": 1,
+		"debugenabled": false,
+		"outputs": 1,
+		"entityType": "sensor",
+		"config": [
+			{
+				"property": "name",
+				"value": "Reolink Alarm Results"
+			},
+			{
+				"property": "device_class",
+				"value": ""
+			},
+			{
+				"property": "icon",
+				"value": ""
+			},
+			{
+				"property": "unit_of_measurement",
+				"value": ""
+			}
+		],
+		"state": "DesiredState",
+		"stateType": "msg",
+		"attributes": [
+			{
+				"property": "Successful",
+				"value": "successCount",
+				"valueType": "jsonata"
+			},
+			{
+				"property": "Failed",
+				"value": "failureCount",
+				"valueType": "jsonata"
+			},
+			{
+				"property": "Start State",
+				"value": "StartingState",
+				"valueType": "jsonata"
+			}
+		],
+		"resend": true,
+		"outputLocation": "",
+		"outputLocationType": "none",
+		"inputOverride": "allow",
+		"x": 610,
+		"y": 840,
+		"wires": [
+			[]
+		]
 	},
 	{
 		"id": "4bcb56e6.9e32f8",
