@@ -34,7 +34,7 @@
 		"outputs": 1,
 		"output_only_on_state_change": true,
 		"x": 240,
-		"y": 40,
+		"y": 60,
 		"wires": [
 			[
 				"77233b10.6b3a04",
@@ -245,7 +245,7 @@
 				"t": "set",
 				"p": "CumulativeResultList",
 				"pt": "flow",
-				"to": " ",
+				"to": "",
 				"tot": "str"
 			}
 		],
@@ -759,6 +759,16 @@
 		"wires": [
 			[]
 		]
+	},
+	{
+		"id": "3da95a69.d82b26",
+		"type": "comment",
+		"z": "4ba1945d.cb84dc",
+		"name": "Required add ons!  Read first",
+		"info": "The following Node Red addins should be set up for this to work.\n\n- node-red-contrib-credentials\n- node-red-contrib-serial-iterator\n\nHome Assistant needs the following add-in to allow Node Red to expose an entity for reporting\n\n- https://github.com/zachowj/hass-node-red \n\nTo set your IP Address for the NVR you need to edit the URL fields in both http request nodes.  I should put this into the initial setting node but I haven't done so yet.\n\nThe flow is triggered off an alarm panel in Home Assistant.  Mine is defined as :\n\nalarm_control_panel:\n  - platform: manual\n    name: Reolink Cameras\n    pending_time: 30\n    delay_time: 20\n    trigger_time: 4\n    disarmed:\n      trigger_time: 0\n    armed_home:\n      pending_time: 0\n      delay_time: 0\n\nThe channels and settings are set up in the flow.Channels variable.  Basically it defines the channel number, whether it is an internal or external camera and a sensitity level.  Internal/external decides what schedule to set, and sensitity is to be set up later - I haven't got around to that yet.",
+		"x": 160,
+		"y": 20,
+		"wires": []
 	},
 	{
 		"id": "4bcb56e6.9e32f8",
