@@ -1,0 +1,192 @@
+[
+    {
+        "id": "8a219cf3.2e796",
+        "type": "tab",
+        "label": "Location Trends",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b85567d9.41cb58",
+        "type": "server-state-changed",
+        "z": "8a219cf3.2e796",
+        "name": "Location Device",
+        "server": "4bcb56e6.9e32f8",
+        "version": 1,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "device_tracker.pixel_3_xl",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "ninja-pants",
+        "halt_if_type": "str",
+        "halt_if_compare": "is_not",
+        "outputs": 2,
+        "output_only_on_state_change": false,
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "bbf7cc1a.984e3"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "dfa3b8de.c67e88",
+        "type": "debug",
+        "z": "8a219cf3.2e796",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 390,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "bbf7cc1a.984e3",
+        "type": "template",
+        "z": "8a219cf3.2e796",
+        "name": "SetParams",
+        "field": "position_track",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n  \"time\":\"{{data.new_state.last_changed}}\",\n  \"latitude\":{{data.new_state.attributes.latitude  }},\n  \"longitude\":{{data.new_state.attributes.longitude }}\n}",
+        "output": "json",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "7e8a3113.81466"
+            ]
+        ]
+    },
+    {
+        "id": "7e8a3113.81466",
+        "type": "function",
+        "z": "8a219cf3.2e796",
+        "name": "Concat_postitions",
+        "func": "var a = flow.get(\"locations\") || [];\n\na.push(msg.position_track);\n\nmsg.collection = a;\nmsg.positions_count = a.length;\nflow.set(\"locations\",a);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "634da5fc.19cbcc",
+                "ac51a5f5.ac3d38"
+            ]
+        ]
+    },
+    {
+        "id": "634da5fc.19cbcc",
+        "type": "function",
+        "z": "8a219cf3.2e796",
+        "name": "Get Trend",
+        "func": "var collection = flow.get(\"locations\" || [])\nvar len = collection.length;\nif(len === 0 || len === 1) \n{\n    return msg;\n}\nwhile(len > 10)\n{\n    collection.shift();\n}\n\nlen = collection.length;\nvar index = len - 1;\nvar latest = collection[index];\nvar previous = collection[index-1]\n\nvar home_lat = 53.6428519;\nvar home_lon = -1.3526093;\n\n// 80 / 60 miles per degree.  Approx.\n// Since I'm not too worried about accuracy of distances, I'll leave \n// these approximations hard coded.  I don't want to have to tune\n// them so gard coded is fine for now\n\nvar latdif1 = Math.round(latest.latitude * 80, 4) - Math.round(home_lat * 80, 4);\nvar latdif2 = Math.round(previous.latitude * 80, 4) - Math.round(home_lat * 80, 4);\nvar longdif1 = Math.round(latest.longitude * 60, 4) - Math.round(home_lon * 60, 4);\nvar longdif2 = Math.round(previous.longitude * 60, 4) - Math.round(home_lon * 60, 4);\n\nmsg.latest_dist = Math.sqrt(  Math.pow(latdif1, 2) + (Math.pow(longdif1, 2)) );\nmsg.previous_dist = Math.sqrt(Math.pow(latdif2, 2) + (Math.pow(longdif2, 2)) );\n\nmsg.direction = msg.latest_dist < msg.previous_dist ? \"Homeward\" : \"Outbound\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 180,
+        "y": 240,
+        "wires": [
+            [
+                "985a7113.5ad2c"
+            ]
+        ]
+    },
+    {
+        "id": "985a7113.5ad2c",
+        "type": "ha-entity",
+        "z": "8a219cf3.2e796",
+        "name": "Traveller",
+        "server": "4bcb56e6.9e32f8",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "Pixel Travelling"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "latest_dist",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "direction",
+                "value": "direction",
+                "valueType": "msg"
+            },
+            {
+                "property": "latest distance",
+                "value": "latest_dist",
+                "valueType": "msg"
+            },
+            {
+                "property": "previous distance",
+                "value": "previous_dist",
+                "valueType": "msg"
+            }
+        ],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 180,
+        "y": 300,
+        "wires": [
+            [
+                "dfa3b8de.c67e88"
+            ]
+        ]
+    },
+    {
+        "id": "ac51a5f5.ac3d38",
+        "type": "debug",
+        "z": "8a219cf3.2e796",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 390,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "4bcb56e6.9e32f8",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant"
+    }
+]
