@@ -1,5 +1,7 @@
 # Proxmox telemetry via Influxdb and Chronograf
 
+### Note : This won't currently work if you're running the InfluxDB server as a Home Assistant addin.  The config there doesn't support it and has been ruled out as a change for the time being - see [this link](https://github.com/hassio-addons/addon-influxdb/issues/39) for an explanation.
+
 I wanted to get some telemetry data from my Proxmox instance - primarily so I could make sure there were no times of the day or week where I was unduly stressing the machine.  To achieve this I spent a few minutes configuring the server to log telemetry data to InfluxDB.  Surprisingly, it was relatively simple to do.
 
 ## Pre-requisites
